@@ -314,7 +314,7 @@ canvas#videoCanvas {
 </header>
 
 <!-- API MODAL -->
-<div class="modal-bg" id="apiModal">
+<div class="modal-bg" id="apiModal" onclick="if(event.target===this)closeApiModal()">
   <div class="modal-box">
     <h2>🔑 Groq API Key</h2>
     <p>Apni free Groq API key daalo. Bilkul free hai, credit card nahi chahiye!<br><br>
@@ -509,7 +509,7 @@ canvas#videoCanvas {
 
 <script>
 // ─── STATE ─────────────────────────────────────────────────────────────────
-let API_KEY = localStorage.getItem('vm_apikey') || '';
+let API_KEY = '';
 let scenes = [];
 let sceneImages = [];
 let selectedVoiceIdx = 0;
@@ -528,7 +528,7 @@ function closeApiModal() { document.getElementById('apiModal').classList.remove(
 function saveKey() {
   const k = document.getElementById('apiKeyIn').value.trim();
   if (!k) { toast('API key daalo!', 'err'); return; }
-  API_KEY = k; localStorage.setItem('vm_apikey', k);
+  API_KEY = k;
   updateApiBtnTop(); closeApiModal();
   toast('✅ API Key save ho gayi!', 'ok');
 }
@@ -593,7 +593,7 @@ Make narration natural, engaging and in ${lang}. Visual descriptions should be i
         'Authorization': `Bearer ${API_KEY}`
       },
       body: JSON.stringify({
-        model: llama-3.3-70b-versatile
+        model: 'llama-3.3-70b-versatile',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.7,
         max_tokens: 4000
